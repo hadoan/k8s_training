@@ -6,3 +6,5 @@ kubectl expose deployment.apps/nginx --target-port=80 --port=8080
 
 
 kubectl run curl --image=radial/busyboxplus:curl -i --tty
+
+helm init --output yaml > tiller.yaml
