@@ -1,0 +1,7 @@
+- Run mysql
+
+sudo docker run -it -p 3306:3306 --env MYSQL_ROOT_PASSWORD=rootPassword -e MYSQL_DATABASE=database -e MYSQL_USER=user -e MYSQL_PASSWORD=password -v ${PWD}/data:/var/lib/mysql/ --name mysql mysql:5.7
+
+- Run Wordpress
+
+docker run -p 8080:80 --link=mysql:db -e WORDPRESS_DB_HOST=db:3306 -e WORDPRESS_DB_NAME=database -e WORDPRESS_DB_USER=user -e WORDPRESS_DB_PASSWORD=password --name WordPress wordpress:latest
