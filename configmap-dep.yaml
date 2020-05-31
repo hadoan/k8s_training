@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: $APP_NAME-$APP_ENVIRONMENT
+  namespace: $APP_ENVIRONMENT
+  labels:
+    app: $APP_NAME-$APP_ENVIRONMENT
+spec:
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: $APP_NAME-$APP_ENVIRONMENT
+  template:
+    metadata:
+      labels:
+        app: $APP_NAME-$APP_ENVIRONMENT
+    spec:
+      restartPolicy: Always
+      volumes:
+      - name: "$APP_NAME-$APP_ENVIRONMENT"
+        configMap:
+          name: "$APP_NAME-$APP_ENVIRONMENT"
+          items:
+            - key: "appsettings.json"
+              path: "appsettings.json"
+      containers:
+      - name: $APP_NAME-$APP_ENVIRONMENT
+        image: 
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: "$APP_NAME-$APP_ENVIRONMENT"
+          mountPath: "/configmaps"
+        env:
+        - name: "ASPNETCORE_ENVIRONMENT"
+          value: "$ASPNETCORE_ENVIRONMENT"
